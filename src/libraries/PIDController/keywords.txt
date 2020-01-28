@@ -1,0 +1,8 @@
+PIDControllerClass      	KEYWORD1
+setPgain			KEYWORD2
+setIgain			KEYWORD2
+setDgain			KEYWORD2
+setMaxIntegralWindup		KEYWORD2
+enableIntegralWindupProtection	KEYWORD2
+disableIntegralWindupProtection	KEYWORD2
+pidCalc				KEYWORD2

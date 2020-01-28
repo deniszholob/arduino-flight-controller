@@ -1,0 +1,95 @@
+/* ===================================
+ * RC PWM Input library
+ * ===================================
+ * Reads PWM inputs from RC reciever
+ *
+ * @author Denis Zholob
+ *
+ * Reference:
+ * 	Remixed from YMFC (http://www.brokking.net)
+ */
+
+// ================================================================================================================
+// Importing Libraries
+// ================================================================================================================
+#include "RCInputPWM.h"
+
+// ================================================================================================================
+// Defining Variables
+// ================================================================================================================
+
+// Channel/Pin                            Ch1/P8     Ch2/P9     Ch/P10     Ch4/P11
+const byte pwm_input_pin[RX_CHANNELS] = {B00000001, B00000010, B00000100, B00001000};
+
+
+volatile unsigned long rx_timer[RX_CHANNELS];  // Timers for pwm channels
+volatile unsigned long rx_timer_current;
+volatile bool rx_last_PWM_state[RX_CHANNELS];  // Stores last state of the PWM Signal (High or LOW => true or false)
+volatile int rx_signal[RX_CHANNELS];           // RC PWM signal in microseconds (us)
+
+// ================================================================================================================
+// Functions
+// ================================================================================================================
+void setup_setRCPWMInteruptPins(){
+  // NOTE: Arduino Uno pins default to inputs, so they don't need to be explicitly declared as inputs
+
+  // Set up Interrupt Pins (to read in RC PWM input)
+  PCICR |= (1 << PCIE0);                             // set PCIE0 to enable PCMSK0 scan
+  PCMSK0 |= (1 << PCINT0);                           // set PCINT0 (digital input 8) to trigger an interrupt on state change
+  PCMSK0 |= (1 << PCINT1);                           // set PCINT1 (digital input 9) to trigger an interrupt on state change
+  PCMSK0 |= (1 << PCINT2);                           // set PCINT2 (digital input 10)to trigger an interrupt on state change
+  PCMSK0 |= (1 << PCINT3);                           // set PCINT3 (digital input 11)to trigger an interrupt on state change
+}
+
+// ================================================================================================================
+// Interrupt Routine: Called when there is a state change on any of the interrupt pins
+// Calculates PWM value from RC input
+// ================================================================================================================
+ISR(PCINT0_vect) {
+  rx_timer_current = micros();                                       // Current Time
+
+  // Loops through all the Channel Timers to calculate RX PWM signal
+  for (int i = 0; i < RX_CHANNELS; i++ ) {
+    // Find start of PWM Signal (High)
+     if(!rx_last_PWM_state[i] && PINB & pwm_input_pin[i] ) {       // Did Input change from LOW(false) to HIGH(true) AND Is the input pin HIGH?
+      rx_last_PWM_state[i] = true;                                 // Remember current input state (true/HIGH)
+      rx_timer[i] = rx_timer_current;                              // Set channel timer to current time
+    }
+    // Find End of PWM signal (Low)
+    else if(rx_last_PWM_state[i] && !(PINB & pwm_input_pin[i]) ) { // Did Input change from HIGH(true) to LOW(false) AND Is the input pin LOW?
+      rx_last_PWM_state[i] = false;                                // Remember current input state (false/LOW)
+      rx_signal[i] = rx_timer_current - rx_timer[i];               // Channel microseconds value: current time - timer value (range should be 1000us - 2000us)
+    }
+  }
+}
+
+// ================================================================= //
+// ======================= DEBUG Output ============================ //
+// ================================================================= //
+
+// Print out PWM Values and the directions
+void printRCPWMValues() {
+  Serial.print("Roll:");
+  if (rx_signal[0] - (PWM_MID-PWM_DEADBAND) < 0)Serial.print("<<<");       //RCPWM - 1480 if Deadband is 20
+  else if (rx_signal[0] - (PWM_MID+PWM_DEADBAND) > 0)Serial.print(">>>");  //RCPWM - 1520 if Deadband is 20
+  else Serial.print("-+-");
+  Serial.print(rx_signal[0]);
+
+  Serial.print("  Pitch:");
+  if (rx_signal[1] - (PWM_MID-PWM_DEADBAND) < 0)Serial.print("^^^");       //RCPWM - 1480 if Deadband is 20
+  else if (rx_signal[1] - (PWM_MID+PWM_DEADBAND) > 0)Serial.print("vvv");  //RCPWM - 1520 if Deadband is 20
+  else Serial.print("-+-");
+  Serial.print(rx_signal[1]);
+
+  Serial.print("  Throttle:");
+  if (rx_signal[2] - (PWM_MID-PWM_DEADBAND) < 0)Serial.print("vvv");       //RCPWM - 1480 if Deadband is 20
+  else if (rx_signal[2] - (PWM_MID+PWM_DEADBAND) > 0)Serial.print("^^^");  //RCPWM - 1520 if Deadband is 20
+  else Serial.print("-+-");
+  Serial.print(rx_signal[2]);
+
+  Serial.print("  Yaw:");
+  if (rx_signal[3] - (PWM_MID-PWM_DEADBAND) < 0)Serial.print("<<<");       //RCPWM - 1480 if Deadband is 20
+  else if (rx_signal[3] - (PWM_MID+PWM_DEADBAND) > 0)Serial.print(">>>");  //RCPWM - 1520 if Deadband is 20
+  else Serial.print("-+-");
+  Serial.println(rx_signal[3]);
+}
