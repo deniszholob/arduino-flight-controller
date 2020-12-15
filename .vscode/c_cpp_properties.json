@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "name": "Win32",
+      "includePath": [
+        "C:/Users/Denis/Documents/Arduino/libraries/**",
+        "C:/Program Files (x86)/Arduino/libraries/**",
+        "C:/Program Files (x86)/Arduino/hardware/tools/**",
+        "C:/Program Files (x86)/Arduino/tools/**",
+        "C:/Program Files (x86)/Arduino/hardware/arduino/avr/**",
+        "C:/Program Files (x86)/Arduino/**",
+        "C:/Users/Denis/Documents/Arduino/**",
+        "./src/**"
+      ],
+      "defines": [
+        "USBCON",
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "cStandard": "gnu18",
+      "cppStandard": "gnu++14",
+      "intelliSenseMode": "gcc-x86",
+      "forcedInclude": [
+        "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h"
+      ]
+    }
+  ],
+  "version": 4
+}

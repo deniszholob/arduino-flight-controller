@@ -2,8 +2,8 @@
  * PID Controller Library
  * ===================================
  * Tests the PID Controller Library
- * Prints out input, forse and calculated output.
- * 
+ * Prints out input, force and calculated output.
+ *
  * @author Denis Zholob
  */
 
@@ -24,38 +24,38 @@
 
 int inputs[SAMPLES] = {0};
 int measured[SAMPLES] = {
-  0,  // 00
-  10, // 01
-  10, // 02
-  10, // 03
-  10, // 04
-  10, // 05
-  10, // 06
-  10, // 07
-  10, // 08
-  10, // 09
-  10, // 10
-  10, // 11
-  10, // 12
-  10, // 13
-  10, // 14
-  0,  // 15
-  0,  // 16
-  0,  // 17
-  -20,// 18
-  -20,// 19
-  -20,// 20
-  -20,// 21
-  -10,// 22
-  -10,// 23
-  -10,// 24
-  -10,// 25
-  0,  // 26
-  0,  // 27
-  0,  // 28
-  -10,// 29
-  -10,// 30
-  -10// 31
+    0,   // 00
+    10,  // 01
+    10,  // 02
+    10,  // 03
+    10,  // 04
+    10,  // 05
+    10,  // 06
+    10,  // 07
+    10,  // 08
+    10,  // 09
+    10,  // 10
+    10,  // 11
+    10,  // 12
+    10,  // 13
+    10,  // 14
+    0,   // 15
+    0,   // 16
+    0,   // 17
+    -20, // 18
+    -20, // 19
+    -20, // 20
+    -20, // 21
+    -10, // 22
+    -10, // 23
+    -10, // 24
+    -10, // 25
+    0,   // 26
+    0,   // 27
+    0,   // 28
+    -10, // 29
+    -10, // 30
+    -10  // 31
 };
 int output[SAMPLES] = {0};
 
@@ -79,14 +79,13 @@ void setup() {
 
   // Run PID control against data
   testPID();
-
 }
 
 // ================================================================================================================
 // Main program loop: Runs over and over again forever
 // ================================================================================================================
 void loop() {
-	// Nothing in loop
+  // Nothing in loop
 }
 
 
@@ -95,15 +94,14 @@ void loop() {
 // ================================================================================================================
 
 // Run PID control against data in for loop to simulate actual program loop
-void testPID(){
+void testPID() {
   for (int i = 0; i < SAMPLES; ++i) {
-  	output[i] = Pid_Control.pidCalc(inputs[i], measured[i]);
-  	Serial.print("Input: ");
-  	Serial.print(inputs[i]);
-  	Serial.print("	Force: ");
-  	Serial.print(measured[i]);
-  	Serial.print("	Output: ");
-  	Serial.println(output[i]);
+    output[i] = Pid_Control.pidCalc(inputs[i], measured[i]);
+    Serial.print("Input: ");
+    Serial.print(inputs[i]);
+    Serial.print("	Force: ");
+    Serial.print(measured[i]);
+    Serial.print("	Output: ");
+    Serial.println(output[i]);
   }
 }
-

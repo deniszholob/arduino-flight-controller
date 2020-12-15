@@ -1,0 +1,22 @@
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+Language: Cpp
+ColumnLimit: 140
+MaxEmptyLinesToKeep: 2
+
+IncludeBlocks: Regroup
+SortIncludes: true
+
+AlignTrailingComments: true
+ReflowComments: false
+
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+
+AlignAfterOpenBracket : Align
+AllowAllArgumentsOnNextLine: true
+
+IndentCaseLabels: true
+# AlignConsecutiveMacros: true
+# AlignConsecutiveAssignments: true

@@ -46,16 +46,16 @@ void loop() {
   printAngularRateData();
 }
 
-// 
-void printAllData(){
-    printAngularRateData();
-    printGyroData();
-    printAccelData();
-    printTemperatureData();
+//
+void printAllData() {
+  printAngularRateData();
+  printGyroData();
+  printAccelData();
+  printTemperatureData();
 }
 
-// 
-void printAngularRateData(){
+//
+void printAngularRateData() {
   Serial.print("Roll-X: ");
   Serial.print(angular_rate.x);
   Serial.print("    Pitch-Y: ");
@@ -64,8 +64,8 @@ void printAngularRateData(){
   Serial.println(angular_rate.z);
 }
 
-// 
-void printGyroData(){
+//
+void printGyroData() {
   Serial.print("Gyro-X: ");
   Serial.print(gyroscope.x);
   Serial.print("    Gyro-Y: ");
@@ -74,8 +74,8 @@ void printGyroData(){
   Serial.println(gyroscope.z);
 }
 
-// 
-void printAccelData(){
+//
+void printAccelData() {
   Serial.print("Accel-X: ");
   Serial.print(accelerometer.x);
   Serial.print("    Accel-Y: ");
@@ -84,8 +84,8 @@ void printAccelData(){
   Serial.println(accelerometer.z);
 }
 
-// 
-void printTemperatureData(){
+//
+void printTemperatureData() {
   Serial.print("Temperature: ");
   Serial.println(temperature);
 }

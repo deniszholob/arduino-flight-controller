@@ -22,7 +22,7 @@
 
 // PID Controller class constructor sets defaults
 // Integral Windup disabled by default to keep things simple
-PIDController::PIDController(){
+PIDController::PIDController() {
   setPgain(1);
   setIgain(0);
   setDgain(0);
@@ -31,52 +31,66 @@ PIDController::PIDController(){
 }
 
 // Sets the P gain
-void PIDController::setPgain(int p_gain){_p_gain = p_gain;}
+void PIDController::setPgain(int p_gain) {
+  _p_gain = p_gain;
+}
 
 // Sets the I gain
-void PIDController::setIgain(int i_gain){_i_gain = i_gain;}
+void PIDController::setIgain(int i_gain) {
+  _i_gain = i_gain;
+}
 
 // Sets the D gain
-void PIDController::setDgain(int d_gain){_d_gain = d_gain;}
+void PIDController::setDgain(int d_gain) {
+  _d_gain = d_gain;
+}
 
 // Sets the maximum windup value for integral error
-void PIDController::setMaxIntegralWindup(int i_windup_max){_i_windup_max = (int)i_windup_max;}
+void PIDController::setMaxIntegralWindup(int i_windup_max) {
+  _i_windup_max = (int)i_windup_max;
+}
 
 // Enables windup guard
-void PIDController::enableIntegralWindupProtection(){_windup_guard_enabled = true;}
+void PIDController::enableIntegralWindupProtection() {
+  _windup_guard_enabled = true;
+}
 
 // Disables windup guard
-void PIDController::disableIntegralWindupProtection(){_windup_guard_enabled = false;}
+void PIDController::disableIntegralWindupProtection() {
+  _windup_guard_enabled = false;
+}
 
 // Resets errors back at 0
-void PIDController::resetErrors(){
+void PIDController::resetErrors() {
   _i_error = 0;
   _previous_error = 0;
 }
 
 /* Generic PID Calculator
- * 
+ *
  * @param setpoint       Desired value (user input) deg/sec (Layman terms: where we want it to be)
  * @param measured_value  Actual value (IMU output) deg/sec (Layman terms: where it is right now )
  *
  * @return                Calculated Correction Output
  */
-double PIDController::pidCalc(int setpoint, int measured_value){
-    double p_error;
-    double d_error;
-    double p_val;
-    double i_val;
-    double d_val;
-  
+double PIDController::pidCalc(int setpoint, int measured_value) {
+  double p_error;
+  double d_error;
+  double p_val;
+  double i_val;
+  double d_val;
+
   // Calculate Errors
   p_error = setpoint - measured_value; // (reciever - gyro) PWM difference == thrust difference == angular motion == deg/sec.﻿
   _i_error += p_error;
   d_error = p_error - _previous_error;
 
   // Integral Windup Protection
-  if(_windup_guard_enabled){
-    if (_i_error < -_i_windup_max) _i_error = -_i_windup_max;
-    else if (_i_error > _i_windup_max) _i_error = _i_windup_max;
+  if (_windup_guard_enabled) {
+    if (_i_error < -_i_windup_max)
+      _i_error = -_i_windup_max;
+    else if (_i_error > _i_windup_max)
+      _i_error = _i_windup_max;
   }
 
   // Apply Gains

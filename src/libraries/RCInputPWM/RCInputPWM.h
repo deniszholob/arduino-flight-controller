@@ -20,12 +20,12 @@
 // ================================================================================================================
 // Declaring Constants (Magic numbers are BAD!)
 // ================================================================================================================
-#define PWM_MIN 1000        // Microseconds (us)
-#define PWM_MAX 2000        // Microseconds (us)
-#define PWM_MID 1500        // Microseconds (us)
-#define PWM_DEADBAND 10     // Microseconds (us) for each side, ie: total deadband range is x2
+#define PWM_MIN 1000    // Microseconds (us)
+#define PWM_MAX 2000    // Microseconds (us)
+#define PWM_MID 1500    // Microseconds (us)
+#define PWM_DEADBAND 10 // Microseconds (us) for each side, ie: total deadband range is x2
 
-#define RX_CHANNELS 4   // Aileron/Roll, Elevator/Pitch, Throttle, Rudder/Yaw, AUX
+#define RX_CHANNELS 4 // Aileron/Roll, Elevator/Pitch, Throttle, Rudder/Yaw, AUX
 
 // #define BIT_SHIFT(count) (1 << count)
 

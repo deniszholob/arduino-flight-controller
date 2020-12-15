@@ -18,41 +18,37 @@ void loop() {
 ISR(PCINT0_vect) {
   timer[0] = micros();
   // channel 1 ---------------
-  if(last_channel[0] == 0 && PINB & B00000001 ) {
+  if (last_channel[0] == 0 && PINB & B00000001) {
     last_channel[0] = 1;
     timer[1] = timer[0];
-  }
-  else if(last_channel[0] == 1 && !(PINB & B00000001) ) {
+  } else if (last_channel[0] == 1 && !(PINB & B00000001)) {
     last_channel[0] = 0;
     input[0] = timer[0] - timer[1];
   }
-  
+
   // channel 2 ---------------
-  if(last_channel[1] == 0 && PINB & B00000010 ) {
+  if (last_channel[1] == 0 && PINB & B00000010) {
     last_channel[1] = 1;
     timer[2] = timer[0];
-  }
-  else if(last_channel[1] == 1 && !(PINB & B00000010) ) {
+  } else if (last_channel[1] == 1 && !(PINB & B00000010)) {
     last_channel[1] = 0;
     input[1] = timer[0] - timer[2];
   }
-  
+
   // channel 3 ---------------
-  if(last_channel[2] == 0 && PINB & B00000100 ) {
+  if (last_channel[2] == 0 && PINB & B00000100) {
     last_channel[2] = 1;
     timer[3] = timer[0];
-  }
-  else if(last_channel[2] == 1 && !(PINB & B00000100) ) {
+  } else if (last_channel[2] == 1 && !(PINB & B00000100)) {
     last_channel[2] = 0;
     input[2] = timer[0] - timer[3];
   }
-  
+
   // channel 4 ---------------
-  if(last_channel[3] == 0 && PINB & B00001000 ) {
+  if (last_channel[3] == 0 && PINB & B00001000) {
     last_channel[3] = 1;
     timer[4] = timer[0];
-  }
-  else if(last_channel[3] == 1 && !(PINB & B00001000) ) {
+  } else if (last_channel[3] == 1 && !(PINB & B00001000)) {
     last_channel[3] = 0;
     input[3] = timer[0] - timer[4];
   }
@@ -67,4 +63,3 @@ void print() {
   Serial.print(" - ");
   Serial.println(input[3]);
 }
-
